@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Introduce el nombre del archivo o su ruta completa (incluyendo la extensión):");
         String filePath = tec.nextLine();
-        // Si el sistema es windows se asigna el "notepad" si no se asigna el editor de el linux de clase.
+        // Si el sistema es windows se asigna el "notepad", si no, se asigna el editor de el linux de clase.
         String editorTextos = esWindows ? "notepad" : "gnome-text-editor";
         String[] datos = {editorTextos, filePath};
         try {
