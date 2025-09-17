@@ -3,14 +3,16 @@ package org.example;
 import java.io.IOException;
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     static Scanner tec = new Scanner(System.in);
+    //Comprobar si el sistema es windows
+    static boolean esWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
     public static void main(String[] args) {
         System.out.println("Introduce el nombre del archivo o su ruta completa (incluyendo la extensión):");
         String filePath = tec.nextLine();
-        String[] datos = {"gedit", filePath};
+        // Si el sistema es windows se asigna el "notepad" si no se asigna el editor de el linux de clase.
+        String editorTextos = esWindows ? "notepad" : "gnome-text-editor";
+        String[] datos = {editorTextos, filePath};
         try {
             Runtime.getRuntime().exec(datos);
         } catch (IOException e) {
