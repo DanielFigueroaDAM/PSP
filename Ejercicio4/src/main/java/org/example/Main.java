@@ -16,11 +16,13 @@ public class Main {
             proceso = new ProcessBuilder("ls", "-l");
 
         String userDir = System.getProperty("user.dir");
-        System.out.println("Directorio de trabajo actual: " + userDir);
+        File dir = new File(".");
+        System.out.println("Directorio de trabajo actual: " + dir.getAbsolutePath());
+        System.out.println("Directorio de usuario actual: " + userDir);
         proceso.directory(new File(userDir));
 
         try {
-            Process proceso2 = proceso.start();
+            proceso.start();
         } catch (IOException e) {
             System.out.println("Error al ejecutar el proceso " + e.getMessage());
         }
@@ -29,14 +31,14 @@ public class Main {
 
         System.setProperty("user.dir", userHome);
 
-        System.out.println("Directorio de trabajo tras el cambio: " + userHome);
+        System.out.println("Directorio de trabajo tras el cambio: " + new File(".").getAbsolutePath());
         System.out.println("Propiedad user.dir tras el cambio: " + System.getProperty("user.dir"));
 
         String tempDir = esWindows ? "C:\\temp" : "/tmp";
 
         System.setProperty("user.dir", tempDir);
 
-        System.out.println("Directorio de trabajo tras el cambio: " + tempDir);
+        System.out.println("Directorio de trabajo tras el cambio: " + new File(".").getAbsolutePath());
         System.out.println("Propiedad user.dir tras el cambio: " + System.getProperty("user.dir"));
     }
 
