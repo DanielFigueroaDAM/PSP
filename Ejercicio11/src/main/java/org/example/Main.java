@@ -1,17 +1,23 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class Main {
-    public static Thread[] hilos = new Thread[5];
+    public static Thread[] hilos = null;
     public static void main(String[] args) {
-        crearHilos();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduce el numero de hilos a crear: ");
+        int tamañoLista = sc.nextInt();
+        sc.close();
+        crearHilos(tamañoLista);
         hilos[0].start();
-
     }
 
-    public static void crearHilos() {
+    public static void crearHilos(int tamañoLista) {
+        tamañoLista = (tamañoLista <= 0) ? 5 : tamañoLista; // Si el numero es negativo o 0, se asigna 5
+        hilos = new Thread[tamañoLista];
         for (int i = 0; i < hilos.length; i++) {
             hilos[i] = new Thread(Main::lazadorHilos); // Se le pasa la funcion anonima(Method Reference)
             hilos[i].setName("Hilo " + (i + 1));
@@ -19,6 +25,7 @@ public class Main {
     }
     static int hilo = 0;
     public static void lazadorHilos(){
+
         try {
             for (int i = 0; i < 5; i++) {
                 System.out.println("["+Thread.currentThread().getName() +"]" + "Iteracion " + (i+1));
@@ -31,7 +38,7 @@ public class Main {
         }
         catch (InterruptedException er) {
             System.out.println("[" + Thread.currentThread().getName() + "]" + "Interrumpido");
-            return;
+            return; // Salimos del metodo si es interrumpido
         }
         System.out.println("["+Thread.currentThread().getName() +"]" + "Termina");
 
