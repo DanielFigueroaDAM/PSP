@@ -14,7 +14,7 @@ public class Main {
             byte[] datos = fis.readAllBytes();
             palabraTemp = new String(datos);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println( "Error al leer el archivo: " + e.getMessage());
         }
 
         final String palabra = palabraTemp;
@@ -37,7 +37,7 @@ public class Main {
             O.join();
             U.join();
         }catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            System.out.println( "Error al leer el archivo: " + e.getMessage() );
         }
         System.out.println(contadorVocales);
     }
