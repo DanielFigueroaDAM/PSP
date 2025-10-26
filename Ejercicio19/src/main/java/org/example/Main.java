@@ -38,6 +38,7 @@ public class Main {
         }catch (InterruptedException e) {
             System.out.println( "Error al leer el archivo: " + e.getMessage() );
         }
+        System.out.println(contadorVocales);
     }
     public static void cuentaLetras(Character letra, String palabra){
         for(Character n : palabra.toCharArray()){
