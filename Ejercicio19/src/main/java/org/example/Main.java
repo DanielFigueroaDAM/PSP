@@ -1,12 +1,11 @@
 package org.example;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Main {
     public static int contadorVocales = 0;
+    private final static Object lock = new Object();
     public static void main(String[] args) {
 
         String palabraTemp = "";
@@ -41,16 +40,12 @@ public class Main {
         }
         System.out.println(contadorVocales);
     }
-    public synchronized static void cuentaLetras(Character letra, String palabra){
+    public static void cuentaLetras(Character letra, String palabra){
         for(Character n : palabra.toCharArray()){
             if(n == letra || n == Character.toUpperCase(letra)){
-                try {
-                    Thread.sleep(150);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                synchronized (lock) {
+                    contadorVocales++;
                 }
-                contadorVocales++;
-                System.out.println(contadorVocales  );
             }
         }
     }
