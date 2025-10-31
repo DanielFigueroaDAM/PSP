@@ -1,4 +1,26 @@
 package com.supermercado;
 
+import java.util.concurrent.Semaphore;
+
 public class App {
+    public static void main(String[] args) {
+        int m = 8; // Número de cajas
+        int n = 20; // Número de clientes
+        Semaphore semaforo = new Semaphore(n);
+        SuperMercado supermercado = new SuperMercado(m, semaforo);
+        Cliente[] clientes = new Cliente[m];
+        for (int i = 0; i < n; i++) {
+            clientes[i] = new Cliente(i + 1, supermercado);
+            clientes[i].start();
+        }
+
+        try {
+            for (int i = 0; i < n; i++) {
+                clientes[i].join();
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Error al esperar a los clientes");
+        }
+
+    }
 }
