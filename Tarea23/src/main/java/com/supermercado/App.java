@@ -1,11 +1,17 @@
 package com.supermercado;
 
+import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 
 public class App {
     public static void main(String[] args) {
-        int m = 8; // Número de cajas
-        int n = 20; // Número de clientes
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Introduce número de cajas (M): ");
+        int m = sc.nextInt();
+
+        System.out.print("Introduce número de clientes (N): ");
+        int n = sc.nextInt();
+
         Semaphore semaforo = new Semaphore(m);
         SuperMercado supermercado = new SuperMercado(m, semaforo);
         Cliente[] clientes = new Cliente[n];
