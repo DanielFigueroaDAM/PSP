@@ -6,21 +6,22 @@ public class App {
     public static void main(String[] args) {
         int m = 8; // Número de cajas
         int n = 20; // Número de clientes
-        Semaphore semaforo = new Semaphore(n);
+        Semaphore semaforo = new Semaphore(m);
         SuperMercado supermercado = new SuperMercado(m, semaforo);
-        Cliente[] clientes = new Cliente[m];
+        Cliente[] clientes = new Cliente[n];
         for (int i = 0; i < n; i++) {
             clientes[i] = new Cliente(i + 1, supermercado);
             clientes[i].start();
         }
 
         try {
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++)
                 clientes[i].join();
-            }
+
         } catch (InterruptedException e) {
             System.out.println("Error al esperar a los clientes");
         }
+        System.out.println("Dinero total recaudado en el supermercado: " + CajaDinero.getDinero() + " unidades monetarias.");
 
     }
 }

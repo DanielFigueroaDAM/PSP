@@ -12,37 +12,37 @@ public class SuperMercado {
     }
 
     public void atenderCliente(int numCliente){
-        //Entrar en la caja de forma aleatoria
-        int cajaElegida = (int)(Math.random() * cajas.length);
-        System.out.println("El cliente " + numCliente + " entra en la caja " + cajaElegida);
-        //Simular el tiempo que tarda en ser atendido
-        esperandoEnCola(numCliente);
-        try {
-            semaforo.acquire();
-            System.out.println("El cliente " + numCliente + " enta en la caja");
-            cajas[cajaElegida] = numCliente;
-        } catch (InterruptedException e) {
-            System.out.println("Error al adquirir el semaforo para el cliente " + numCliente);
-        } finally {
-            semaforo.release();
+        while (true) {
+            int cajaElegida = (int) (Math.random() * cajas.length);
+
+            try {
+                semaforo.acquire(); // intenta conseguir una caja
+
+                if (cajas[cajaElegida] == 0) {
+                    cajas[cajaElegida] = numCliente;
+                    System.out.println("Cliente " + numCliente + " entra en la caja " + cajaElegida);
+                    //añadimos dinero random a la caja
+                    CajaDinero.aumentarDinero((int)(Math.random() * 100) + 1);
+                    break; // sale del while
+                } else {
+                    // Caja ocupada, devolvemos el turno del semáforo
+                    semaforo.release();
+                }
+
+            } catch (InterruptedException e) {
+                System.out.println("Error con cliente " + numCliente);
+            }
         }
     }
 
+
     public void salirDeCaja(int num){
-        //Tiempo que tarda en salir de la caja
-        esperandoEnCola(num);
         for (int i = 0; i < cajas.length; i++) {
             if (cajas[i] == num) {
-                try {
-                    semaforo.acquire();
-
-                    System.out.println("El cliente " + num + " sale de la caja " + i);
-                    cajas[i] = 0;
-                } catch (InterruptedException e) {
-                    System.out.println("Error al adquirir el semaforo para el cliente " + num);
-                } finally {
-                    semaforo.release();
-                }
+                cajas[i] = 0;
+                System.out.println("Cliente " + num + " sale de la caja " + i);
+                semaforo.release(); // deja libre la caja
+                break;
             }
         }
     }
