@@ -19,27 +19,21 @@ public class Servidor {
             Socket socket = servidor.accept();
             System.out.println("Cliente conectado");
 
-            // Leer mensajes del cliente
             BufferedReader lector = new BufferedReader(
                     new InputStreamReader(socket.getInputStream())
             );
 
-            String mensaje;
-            while ((mensaje = lector.readLine()) != null) {
-                System.out.println("Cliente dice: " + mensaje);
-            }
 
-            // Ahora enviar respuesta al cliente
+
             PrintWriter escritor = new PrintWriter(socket.getOutputStream(), true);
-            escritor.println("Mensaje 1 enviado por Servidor");
-            escritor.println("Mensaje 2 enviado por Servidor");
-            escritor.println("Mensaje 3 enviado por Servidor");
+            String mensaje;
+            while ( (mensaje = lector.readLine()) != null)
+                escritor.println("Eco: "+mensaje);
 
-            // Cerrar conexión
             socket.close();
             servidor.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }
