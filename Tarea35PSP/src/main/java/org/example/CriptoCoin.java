@@ -3,6 +3,12 @@ package org.example;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * Clase que representa una criptomoneda con sus propiedades.
+ * @JsonIgnoreProperties(ignoreUnknown = true) indica que se ignoren las propiedades desconocidas durante la deserialización JSON.
+ * @JsonProperty se utiliza para mapear los nombres de las propiedades JSON a los nombres de los campos de la clase.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CriptoCoin {
     @JsonProperty("name")
