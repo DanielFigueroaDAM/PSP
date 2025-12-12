@@ -15,6 +15,7 @@ public class Main {
         props.put("mail.smtp.port", "2525");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
         //Usuario y contraseña de Mailtrap
         String myUser = "69a44ea40af523";
         String myPass = "d5ae6c8135c499";
@@ -31,11 +32,12 @@ public class Main {
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("prueba@destino.com"));
             msg.setSubject("Prueba de Agente - [Daniel]");
 
+            msg.setText("Este es el cuerpo del mensaje de prueba.");
+
             Transport.send(msg);
 
-            Store store = session.getStore("imap");
-            store.connect("sandbox.smtp.mailtrap.io", myUser, myPass);
-
+            Store store = session.getStore("pop3");
+            store.connect("pop3.mailtrap.io", 1100, myUser, myPass);
             Folder inbox = store.getFolder("INBOX");
             inbox.open(Folder.READ_ONLY);
 
