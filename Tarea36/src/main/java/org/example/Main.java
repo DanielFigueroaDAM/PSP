@@ -66,7 +66,6 @@ public class Main {
             System.out.println("No hay mensajes en el buzón.");
             return;
         }
-        // El último mensaje en el array es el más reciente
         Message ultimoMensaje = messages[0];
         System.out.println("De: " + ultimoMensaje.getFrom()[0]);
         System.out.println("Asunto: " + ultimoMensaje.getSubject());
