@@ -1,6 +1,5 @@
 package org.example;
 
-
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -34,7 +33,7 @@ public class Main {
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("prueba@destino.com"));
             msg.setSubject("Prueba de Agente - [Daniel]");
 
-            String miCorreo = JOptionPane.showInputDialog("Escribe el correo");
+            String miCorreo = "El sistema de notificaciones esta activo";
 
             msg.setText(miCorreo);
 
@@ -45,17 +44,11 @@ public class Main {
             Folder inbox = store.getFolder("INBOX");
             inbox.open(Folder.READ_ONLY);
 
+            Message[] messages = inbox.getMessages();
 
-            Message[] messages = inbox.getMessages(); // leemos los mensajes del correo
 
-            System.out.println("Ultimo mensaje");
-            System.out.println("--------------------------------");
+            System.out.println("\n=== ÚLTIMO MENSAJE ENVIADO ===");
             leerUltimoMensajeEnviado(messages);
-
-
-            System.out.println("Primeros 5 mensajes ");
-            System.out.println("--------------------------------");
-            leer5PrimerosMensajes(messages);
 
             // Cerramos conexiones para liberar recursos
             inbox.close(false);
@@ -68,54 +61,15 @@ public class Main {
         }
     }
 
-    /**
-     * Esta función se encarga de leer los 5 primeros mensajes.
-     * @param messages
-     * @throws MessagingException
-     */
-    private static void leer5PrimerosMensajes(Message[] messages) throws MessagingException, IOException {
-        System.out.println("Tienes " + messages.length + " mensajes en el buzón.");
-        System.out.println("--------------------------------");
-
-        int totalMensajes = messages.length;
-        int start = Math.max(0, totalMensajes - 5);
-
-        for (int i = start; i < totalMensajes; i++) {
-            System.out.println("---------------------------------");
-            try {
-                // El mensaje en posición i del array corresponde al mensaje #(i+1) en POP3
-                System.out.println("Mensaje #" + (i + 1) + ":");
-                System.out.println("De: " + messages[i].getFrom()[0]);
-                System.out.println("Asunto: " + messages[i].getSubject());
-                System.out.println("Contenido: " + messages[i].getContent().toString());
-            } catch (MessageRemovedException e) {
-                System.out.println("Mensaje #" + (i + 1) + " ha sido eliminado o no existe");
-            } catch (MessagingException e) {
-                System.out.println("Error al leer mensaje #" + (i + 1) + ": " + e.getMessage());
-            }
-        }
-    }
     private static void leerUltimoMensajeEnviado(Message[] messages) throws MessagingException, IOException {
         if (messages.length == 0) {
             System.out.println("No hay mensajes en el buzón.");
             return;
         }
-
-        // El último mensaje en el array es el más reciente en POP3
-        Message ultimoMensaje = messages[messages.length - 1];
-
-        System.out.println("=== ÚLTIMO MENSAJE ENVIADO ===");
+        // El último mensaje en el array es el más reciente
+        Message ultimoMensaje = messages[0];
         System.out.println("De: " + ultimoMensaje.getFrom()[0]);
         System.out.println("Asunto: " + ultimoMensaje.getSubject());
-        System.out.println("Fecha: " + ultimoMensaje.getSentDate());
 
-        // Leer contenido
-        Object contenido = ultimoMensaje.getContent();
-        if (contenido != null) {
-            System.out.println("Contenido: " + contenido.toString());
-        }
-        System.out.println("=============================");
     }
-
-
 }
